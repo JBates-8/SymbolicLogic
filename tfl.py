@@ -28,24 +28,7 @@ class TwoWayDict(dict):
         return dict.__len__(self) // 2
 
 
-class Atomic:
 
-    def __init__(self, letter, statement, cur_value = None):
-        self.letter = letter
-        self.statement = statement
-        self.cur_value = cur_value
-
-    def __repr__(self):
-        return "Atomic({}, {})".format(self.letter,self.statement)
-
-    def __str__(self):
-        return self.letter
-
-    def sentence(self):
-        return self.statement
-
-    def truth_value(self):
-        return self.cur_value
 
 class Connective:
 

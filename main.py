@@ -4,14 +4,29 @@ Author: Jackson Bates
 Created: 8/28/2019 2:11 PM 
 """
 
-import nltk
+atomics = ['A','B','C','D']
+statements = [
+    "A",
+    "~B",
+    "A->C",
+    "B<->C",
+]
 
-phrase = "Paris is in France. France is in Europe. Therefore Paris is in Europe."
+def parse_statement(statement_str, atomic_lst):
+    print("Atomics list: {}".format(atomic_lst))
+    print(statement_str)
+    character_set = set(filter(str.isalpha,statement_str))
+    print("Statement character set: {}".format(sorted(list(character_set))))
+    # check that the character_set is a subset of the atomic_lst as a set
+    is_subset = character_set.issubset(set(atomic_lst))
+    print("Check for valid subset: {}".format(is_subset))
 
-sentances = nltk.sent_tokenize(phrase)
 
-for s in sentances:
-    tokens = nltk.word_tokenize(s)
-    tags = nltk.pos_tag(tokens)
-    print(tags)
+
+    print()
+
+for st in statements:
+    parse_statement(st,atomics)
+
+
 
