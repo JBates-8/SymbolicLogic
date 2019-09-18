@@ -29,6 +29,22 @@ class TwoWayDict(dict):
 
 
 
+class Atomic:
+
+    def __init__(self, letter, statement, cur_value = None):
+        self.letter = letter
+        self.statement = statement
+        self.cur_value = cur_value
+
+    def __repr__(self):
+        return "Atomic({}, {})".format(self.letter,self.statement)
+
+    def __str__(self):
+        return self.letter
+
+    def sentence(self):
+        return self.statement
+
 
 class Connective:
 
@@ -201,11 +217,17 @@ class TruthTable:
         print(spacer)
 
 
+def statement_list(statement, lst):
+    # note for the initial call it should be statement_list(statement, [])
+    t = type(statement)
+    lst.append(statement)
+    if t is Atomic:
+        return lst
+    elif t is Negation:
+        return statement(statement.negated,lst)
+    elif t is Conditional:
+        return lst
 
-def get_atomics(statement, visited):
-    if type(statement) is Atomic:
-        return visited.append(statement)
-    elif isinstance(statement, Connective):
 
 
 
