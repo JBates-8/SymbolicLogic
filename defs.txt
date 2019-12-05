@@ -1,0 +1,3 @@
+A *graph* G is a triple consisting of a *vertex set* V(G), an *edge set* E(G), and a relation that associates with each edge two vertices (not necessarily distinct) called its *endpoints*
+A *loop* is an edge whose endpoints are equal.
+*multiple edges* are edges having the same pair of endpoints
