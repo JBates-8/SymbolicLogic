@@ -1,0 +1,8 @@
+<atomic> ::= [A-Z]
+<neg> ::= "~"
+<and> ::= "&"
+<or> ::= "|"
+<conditional> ::= "->"
+<biconditional> ::= "<->"
+<connective> ::= <and> | <or> | <conditional> | <biconditional>
+<statement> ::= <atomic> | <neg> <atomic> | <atomic> <connective> <atomic>
