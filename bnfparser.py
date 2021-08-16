@@ -7,6 +7,8 @@ Created: 11/16/2019 6:44 AM
 
 
 import re
+import logging
+logging.basicConfig()
 
 class tokenizer:
 
@@ -14,8 +16,8 @@ class tokenizer:
     SYM = {
     "[A-Z]": "T_UCHAR",
     "[a-z]": "T_LCHAR",
-    '<'    : "T_GTHAN",
-    '>'    : "T_LTHAN",
+    '<'    : "T_LTHAN",
+    '>'    : "T_GTHAN",
     '\n'   : "T_NEWLINE",
     ' '    : "T_WHITESPACE",
     "\["   : "T_OPENBRACK",
@@ -27,10 +29,14 @@ class tokenizer:
     "\|"   : "T_VBAR"}
 
 
+
     def __init__(self, filename):
-            with open(filename,'r') as file:
-                self.chars = file.read()
+        self.filename = filename
+        assert type(filename) is str
+        with open(filename,'r') as file:
+            self.chars = file.read()
             self.idx = 0
+            
             end = len(self.chars)
             self.unclassified = []
             self.classified = []
@@ -40,6 +46,9 @@ class tokenizer:
             print("Percent classified: {:.2f}% ({}/{})".format(self.count*100/end,self.count, end))
             print(self.classified)
             print("Unclassified items: {}".format(self.unclassified))
+
+    def verify_file(self):
+        pass
 
     def classify(self, c, idx):
         for key,val in tokenizer.SYM.items():
@@ -53,11 +62,6 @@ class tokenizer:
         print("No match found:","\'{}\'".format(c))
         self.unclassified.append(c)
 
-
-
-
-
-
 class regexContainer:
 
     def __init__(self, rstring, desc):
@@ -67,7 +71,6 @@ class regexContainer:
     def __str__(self):
         return "regexContainer(\"{}\",\"{}\")".format(self.regex, self.description)
 
-
 class literalRegex(regexContainer):
 
     def __init__(self, rstring):
@@ -76,13 +79,6 @@ class literalRegex(regexContainer):
 
 
 
-def alpharange(ch1, ch2):
-    i1, i2 = ord(ch1), ord(ch2)
-    assert i1 < i2
-    cur = i1
-    while cur <= i2:
-        yield chr(cur)
-        cur += 1
 
 REGEX_LIST = [
     r"<[a-z]+>$", #nonterminal
@@ -90,6 +86,22 @@ REGEX_LIST = [
     r"\[[A-Y]-[B-Z]\]$",
     r"\|$"
 ]
+class alpharange:
+
+    def __init__(self, ch1, ch2):
+        self._ch1 = ch1
+        self._ch2 = ch2
+        self._ord1 = ord(ch1)
+        self._ord2 = ord(ch2)
+        assert self._ord1 < self._ord2
+        self._alphalist = [chr(i) for i in range(self._ord1, self._ord2+1)]
+        print()
+
+    def __str__(self):
+        return "[{},...,{}]".format(self._ch1, self._ch2)
+
+    def __repr__(self):
+        return "(alpharange [{},{}] {})".format(self._ch1, self._ch2, hex(id(self)))
 
 class option:
 
@@ -131,6 +143,9 @@ class bnfparser:
             else:
                 self.terminals[k] = option(optional)
 
+    def convert(self, item):
+        charsetregex = ""
+
 
 
 
@@ -139,5 +154,7 @@ class bnfparser:
 
 
 
-parser = tokenizer("grammar.txt")
+
 bnf = bnfparser("grammar.txt")
+print(alpharange("A","K"))
+print(repr(alpharange("C","X")))

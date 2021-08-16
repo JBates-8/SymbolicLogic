@@ -7,6 +7,9 @@ Created: 11/7/2019 6:13 PM
 # Set empty to begin, must be set with init_logger()
 
 __REALPRINT = print
+__OUTFILE
+# maybe a bit of "magic" here with the format() calls being auto run on key check.
+# can break if incorrect number of parameters are given for that specific key.
 
 TEX = {
     "Negation":"\\neg {}".format,
@@ -19,7 +22,7 @@ TEX = {
 print(TEX["Conditional"]("a","b"))
 
 def init_doc(filename):
-    global __OUTFILE
+
     __OUTFILE = open(filename,"w")
     __OUTFILE.writelines(["\\documentclass{article}\n",
                           "\\usepackage{geometry}\n",
